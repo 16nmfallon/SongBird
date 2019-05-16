@@ -16,6 +16,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class fetchData extends AsyncTask<Void,Void,Void> {
+
+
+    public fetchData(String searchedArtist) {
+       this.searchedArtist = searchedArtist;
+    }
+    private String searchedArtist;
     String data = "";
     String dataParsed = "";
     String singleParsed = "";
@@ -24,7 +30,10 @@ public class fetchData extends AsyncTask<Void,Void,Void> {
 
         try {
             //https://itunes.apple.com/search?term=jack+johnson&entity=song&limit=20
-            URL url = new URL("https://itunes.apple.com/search?term=jack+johnson&entity=song&limit=20");
+            String url1 = "https://itunes.apple.com/search?term=";
+            String url2 = "&entity=song&limit=20\"";
+            String searchString = url1 + searchedArtist + url2;
+            URL url = new URL(searchString);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             InputStream inputStream = httpURLConnection.getInputStream();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
@@ -35,6 +44,7 @@ public class fetchData extends AsyncTask<Void,Void,Void> {
             }
             data = data.substring(31);
             JSONArray JA = new JSONArray(data);
+            MainActivity.trackArray.clear();
             for(int i = 0; i < JA.length(); i++) {
                 JSONObject JO = (JSONObject) JA.get(i);
                 MainActivity.trackArray.add((String) JO.get("trackName"));
@@ -53,6 +63,6 @@ public class fetchData extends AsyncTask<Void,Void,Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        Log.d("TEST", MainActivity.trackArray.toString());
+        Log.d("TEST1", MainActivity.trackArray.toString());
     }
 }

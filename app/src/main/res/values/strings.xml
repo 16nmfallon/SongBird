@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Best Tunes</string>
+    <string name="search_artist">search_artist</string>
 </resources>
